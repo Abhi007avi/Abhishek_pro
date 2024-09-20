@@ -9,7 +9,7 @@ function App() {
   return (
     <div >
       <Dashboard />
-      <ViewDocument/>
+  
     </div>
   );
 }

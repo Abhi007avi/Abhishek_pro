@@ -281,11 +281,13 @@ const Dashboard = () => {
             <div className="modal-body">
               
               {selectedDocument ? (
+                
+                 console.log(selectedDocument.document_name.split('.').pop()),
                 <DocViewer
                 documents={[{
-                  uri: `http://localhost:5000/document/${selectedDocument.document_name}`,
-                   fileType:"xlsx",
-                    fileName: "equpment.xlsx"
+                  uri: `https://raw.githubusercontent.com/Abhi007avi/Abhishek_pro/refs/heads/gh-pages/${selectedDocument.document_name.split('/').pop()}+${selectedDocument.document_name.split('.').pop()}`,
+                  fileType: "xlsx",
+                  fileName: "Sample.xlsx"
                 }]}
                 pluginRenderers={DocViewerRenderers}
               />

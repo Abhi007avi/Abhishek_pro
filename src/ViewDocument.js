@@ -6,9 +6,9 @@ import "@cyntler/react-doc-viewer/dist/index.css";
 const ViewDocument = () =>{
 const docs = [
     { 
-      uri: "http://localhost:5000/document/testfile.jpg",
-      fileType:"jpg",
-      fileName:"Sample-PPT-File-500kb.jpg"
+      uri: "https://raw.githubusercontent.com/Abhi007avi/Abhishek_pro/gh-pages/QA.docx",
+      fileType:"docx",
+      fileName:"Sample.docx"
     }, 
     {
         uri: require("./assets/TestUpload3.png"),
