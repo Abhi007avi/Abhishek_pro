@@ -25,12 +25,11 @@ const Dashboard = () => {
   }, [selectedDepartment]);
 
   const handleViewDocument = (doc) => {
-    
-    setSelectedDocument(doc);
-    setShowModal(true);
-    
+    const documentUrl = `https://raw.githubusercontent.com/Abhi007avi/server/refs/heads/master/uploads/${doc.file_path.split('\\').pop()}`;
+    // Open the document in a new tab/window
+    window.open(documentUrl, '_blank');
   };
-
+  
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedDocument(null);
@@ -285,9 +284,9 @@ const Dashboard = () => {
                  console.log(selectedDocument.document_name.split('.').pop()),
                 <DocViewer
                 documents={[{
-                  uri: `https://raw.githubusercontent.com/Abhi007avi/Abhishek_pro/refs/heads/gh-pages/${selectedDocument.document_name.split('/').pop()}+${selectedDocument.document_name.split('.').pop()}`,
+                  uri: `https://raw.githubusercontent.com/Abhi007avi/server/refs/heads/master/uploads/${selectedDocument.file_path.split('\\').pop()}`,
                   fileType: "xlsx",
-                  fileName: "Sample.xlsx"
+                  fileName: selectedDocument.file_path.split('\\').pop()
                 }]}
                 pluginRenderers={DocViewerRenderers}
               />
