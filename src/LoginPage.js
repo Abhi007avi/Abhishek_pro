@@ -4,11 +4,36 @@ import './LoginPage.css';
 const LoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic (you can pass the email and password to onLogin)
-    onLogin(email, password);
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: email, // Assuming username = email
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Store token in local storage
+        localStorage.setItem('token', data.token);
+
+        // Call onLogin with user data
+        onLogin(data.user);
+      } else {
+        setError(data.message); // Handle login error (e.g., invalid credentials)
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Something went wrong, please try again.');
+    }
   };
 
   return (
@@ -34,6 +59,7 @@ const LoginPage = ({ onLogin }) => {
               required
             />
           </div>
+          {error && <p className="error">{error}</p>}
           <button type="submit" className="login-button">
             LOGIN
           </button>
