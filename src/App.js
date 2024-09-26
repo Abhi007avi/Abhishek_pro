@@ -42,6 +42,7 @@ function App() {
         <LoginPage onLogin={handleLogin} />
       )}
     </div>
+    
   );
 }
 

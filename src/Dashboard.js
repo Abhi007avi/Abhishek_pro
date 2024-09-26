@@ -7,14 +7,18 @@ import { faUser as faUserRegular } from '@fortawesome/free-regular-svg-icons';
 import AddDocumentForm from './AddDocument';
 import company_logo from './assets/company_logo.png';
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import "@cyntler/react-doc-viewer/dist/index.css";
+//import "@cyntler/react-doc-viewer/dist/index.css";
+import { useNavigate } from 'react-router-dom';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import ChangeNoteForm from './ChangeNoteForm';
+
 const Dashboard = () => {
   const [documents, setDocuments] = useState([]);
   const [selectedDocument, setSelectedDocument] = useState('');
   const [showModal, setShowModal] = useState(false);
-  // Fetch the list of uploaded documents when the component mounts
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  
+  const [showChangeNoteModal, setShowChangeNoteModal] = useState(false);
+
   useEffect(() => {
     if (selectedDepartment) {
       fetch(`http://localhost:5000/documents/department/${selectedDepartment}`)
@@ -37,6 +41,21 @@ const Dashboard = () => {
 
   const handleDepartmentChange = (e) => {
     setSelectedDepartment(e.target.value); // Update selected department
+  };
+
+  //const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Clear authentication tokens (localStorage, cookies, etc.)
+    localStorage.removeItem('authToken');
+    
+    // Redirect to login page
+   // navigate('/login');
+  };
+
+  const handleChangeNoteSubmit = (data) => {
+    console.log('Change note submitted:', data);
+    setShowChangeNoteModal(false); // Close the modal after submitting
   };
 
   return (
@@ -150,9 +169,20 @@ const Dashboard = () => {
                 </li>
               </ul>
             </li>
+
+            <li className="sidebar-item">
+        <button
+          className="sidebar-link btn btn-link"
+          onClick={handleLogout}
+          style={{ textAlign: 'left', padding: 0 }}
+        >
+          <FontAwesomeIcon icon={faRightFromBracket} className="pe-2" />
+          Logout
+        </button>
+      </li>
           </ul>
         </div>
-      </aside>
+      </aside> 
 
       {/* Main Content */}
       <div className="main">
@@ -189,6 +219,10 @@ const Dashboard = () => {
       <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDocumentModal">
         Add Document
       </button>
+
+      <button  className="btn btn-secondary" onClick={() => setShowChangeNoteModal(true)}>
+          Change Note
+      </button>
     </div>
 
 
@@ -213,7 +247,7 @@ const Dashboard = () => {
       <div className="card-header">
         <h5 className="card-title" style={{textAlign: "center"}}>{selectedDepartment} Document List</h5>
         <div style={{ textAlign: "left" }}>
-    <p>STPPL / QA / LT / 01</p>
+    <p>STPPL / {selectedDepartment} / LT / 01</p>
     <p>Rev. No.: 28</p>
     <p>Rev. Date: 01.02.2024</p>
    
